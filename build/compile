@@ -4,6 +4,8 @@
 #
 
 OCL_VERSION=1.0.14
+XDS_VERSION=0.x
+XDS_REVISION=0
 LIB_VERSION=0.8.0rc8
 SUFFIX=8
 
@@ -34,6 +36,17 @@ OPENOCL_IO_LONG=../../../OpenOCL_PSA/libopenocl_io_psa-${OCL_VERSION}
 OPENOCL_PROV_SHORT=../../../OpenOCL_PSA/libopenocl_provider_psa
 OPENOCL_PROV_LONG=../../../OpenOCL_PSA/libopenocl_provider_psa-${OCL_VERSION}
 
+
+OPENXDS_CORE_BASE_SHORT=../../../OpenXDS_Core/${XDS_VERSION}/libopenxds_core_base
+OPENXDS_CORE_BASE_LONG=../../../OpenXDS_Core/${XDS_VERSION}/libopenxds_core_base-${XDS_VERSION}.${XDS_REVISION}
+
+OPENXDS_CORE_IO_SHORT=../../../OpenXDS_Core/${XDS_VERSION}/libopenxds_core_io
+OPENXDS_CORE_IO_LONG=../../../OpenXDS_Core/${XDS_VERSION}/libopenxds_core_io-${XDS_VERSION}.${XDS_REVISION}
+
+OPENXDS_CORE_PROV_SHORT=../../../OpenXDS_Core/${XDS_VERSION}/libopenxds_core_provider
+OPENXDS_CORE_PROV_LONG=../../../OpenXDS_Core/${XDS_VERSION}/libopenxds_core_provider-${XDS_VERSION}.${XDS_REVISION}
+
+
 if [ -d ${LIBX_LONG} ]
 then
 	LIBX=${LIBX_LONG}
@@ -62,10 +75,34 @@ else
 	PROV=${OPENOCL_PROV_SHORT}
 fi
 
+
+if [ -d ${OPENXDS_CORE_BASE_LONG} ]
+then
+	XDS_BASE=${OPENXDS_CORE_BASE_LONG}
+else
+	XDS_BASE=${OPENXDS_CORE_BASE_SHORT}
+fi
+
+if [ -d ${OPENXDS_CORE_IO_LONG} ]
+then
+	XDS_IO=${OPENXDS_CORE_IO_LONG}
+else
+	XDS_IO=${OPENXDS_CORE_IO_SHORT}
+fi
+
+if [ -d ${OPENXDS_CORE_PROV_LONG} ]
+then
+	XDS_PROV=${OPENXDS_CORE_PROV_LONG}
+else
+	XDS_PROV=${OPENXDS_CORE_PROV_SHORT}
+fi
+
+
 # CPPFLAGS
 
 OPENOCL_HEADERS="-I${BASE}/include -I${IO}/include -I${BASE}/source/include -I${IO}/source/include -I${PROV}/include"
-CPPFLAGS="${CPPFLAGS} -I${LIBX}/include -I${LIBX}/source/include -Isource/include ${OPENOCL_HEADERS} -DEXT_VERSION=\"${LIB_VERSION}\""
+OPENXDS_HEADERS="-I${XDS_BASE}/include -I${XDS_IO}/include -I${XDS_BASE}/source/include -I${XDS_IO}/source/include -I${XDS_PROV}/include"
+CPPFLAGS="${CPPFLAGS} -I${LIBX}/include -I${LIBX}/source/include -Isource/include ${OPENOCL_HEADERS} ${OPENXDS_HEADERS} -DEXT_VERSION=\"${LIB_VERSION}\""
 
 # CFLAGS
 
@@ -85,8 +122,10 @@ LFLAGS=-ldl
 
 FLAGS="${CPPFLAGS} ${CFLAGS}"
 OPENOCL_LIBDIR="-L${BASE}/lib -L${IO}/lib -L${PROV}/lib"
+OPENXDS_LIBDIR="-L${XDS_BASE}/lib -L${XDS_IO}/lib -L${XDS_PROV}/lib"
 OPENOCL_LIB="-lopenocl_provider_psa -lopenocl_io_psa -lopenocl_base_psa"
-POPENOCL_LIB="-Wl,-weak-lopenocl_provider_psa -Wl,-weak-lopenocl_io_psa -Wl,-weak-lopenocl_base_psa"
+OPENOCL_LIB="-lopenxds_core_provider -lopenxds_core_io -lopenxds_core_base"
+POPENOCL_LIB="-Wl,-weak-lopenocl_provider_psa -Wl,-weak-lopenocl_io_psa -Wl,-weak-lopenocl_base_psa, -Wl,-weak-lopenxds_core_provider -Wl,-weak-lopenxds_core_io -Wl,-weak-lopenxds_core_base"
 CARBON="-framework carbon"
 
 # LFLAGS and PFLAGS
