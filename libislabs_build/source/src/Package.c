@@ -7,6 +7,7 @@
  *  I.S.Labs is a registered trademark of Daniel Robert Bradley
  */
 
+#include "islabs/build/_Defines.h"
 #include "islabs/build/BuildParameters.h"
 #include "islabs/build/Package.protected.h"
 #include "islabs/build/ProviderContext.h"
@@ -36,8 +37,9 @@ void free_Package( Package* self )
 
 void Package_init( Package* self, BuildManager* bm, const IDirectory* location )
 {
-	const IDirectory* lib     = Directory_getCachedSubdirectory( location, "lib" );
-	const IDirectory* testing = Directory_getCachedSubdirectory( location, "testing" );
+	const IDirectory* dep     = Directory_getCachedSubdirectory( location, DIR_DEP );
+	//const IDirectory* lib     = Directory_getCachedSubdirectory( location, DIR_LIB );
+	const IDirectory* testing = Directory_getCachedSubdirectory( location, DIR_TESTING );
 
 	Buildable_init( &self->super, bm, location );
 	Buildable_setType( &self->super, PACKAGE );
@@ -48,9 +50,9 @@ void Package_init( Package* self, BuildManager* bm, const IDirectory* location )
 
 	Buildable_setUpToDate( &self->super, Package_isUpToDate( self, location ) );
 
-	if ( lib )
+	if ( dep )
 	{
-		const ISet* libraries = Directory_getCachedSubdirectories( lib );
+		const ISet* libraries = Directory_getCachedSubdirectories( dep );
 		if ( libraries )
 		{
 			unsigned int max = Set_count( libraries );
@@ -100,10 +102,10 @@ bool Package_buildTo( const Package* self, const IDirectory* target, const Build
 			}
 			if ( self->testSuite && (BuildParameters_isBuildTests( parameters ) || BuildParameters_isRunTests( parameters )) )
 			{
-				const IDirectory* test_suite_target = Directory_getCachedSubdirectory( target, "testing" );
+				const IDirectory* test_suite_target = Directory_getCachedSubdirectory( target, DIR_TESTING );
 				if ( !test_suite_target )
 				{
-					test_suite_target = Directory_getCachedSubdirectory_new( target, "testing" );
+					test_suite_target = Directory_getCachedSubdirectory_new( target, DIR_TESTING );
 					Directory_createAll( test_suite_target );
 				}
 				status &= Suite_buildTo( (Suite*) self->testSuite, test_suite_target, parameters, depth );
@@ -137,13 +139,13 @@ bool Package_buildChildren( const Package* self, const IDirectory* target, const
 			}
 		}
 	} else {
-		const IDirectory* target_lib = Directory_getCachedSubdirectory( target, "lib" );
+		const IDirectory* target_lib = Directory_getCachedSubdirectory( target, DIR_LIB );
 		unsigned int i;
 		unsigned int count = Set_count( self->super.children );
 		
 		if ( !target_lib )
 		{
-			target_lib = Directory_getCachedSubdirectory_new( target, "lib" );
+			target_lib = Directory_getCachedSubdirectory_new( target, DIR_LIB );
 		//	Directory_createAll( target_lib );
 		}
 		
@@ -180,7 +182,7 @@ bool Package_buildPackage( const Package* self, const IDirectory* target, const 
 ///
 	const IDirectory* target_obj  = Directory_getCachedSubdirectory( target, "obj" );
 	const IDirectory* target_lib  = Directory_getCachedSubdirectory( target, "lib" );
-	const IDirectory* package_lib = Directory_getCachedSubdirectory( self->super.directory, "lib" );
+	const IDirectory* package_lib = Directory_getCachedSubdirectory( self->super.directory, "dep" );
 	const IDirectory* source      = Directory_getCachedSubdirectory( self->super.directory, "source" );
 
 
@@ -236,7 +238,7 @@ bool Package_buildPackage( const Package* self, const IDirectory* target, const 
 	//--------------------------------------------------------------------------
 	//	Determine library dependencies
 	//
-	//	o  First searchs the target library directory it exists
+	//	o  First searchs the target library directory if it exists
 	//	o  else searches the package library directory
 	//
 	//	Search both handles the situation where you are building into a
@@ -251,14 +253,14 @@ bool Package_buildPackage( const Package* self, const IDirectory* target, const 
 		//
 		//		Hmmm, also this wouldn't work for monolithic executables.
 		
-		depthfirst_lib_directories = Directory_searchCached_depthFirst_followLinks( target_lib, "lib", 1 );
+		depthfirst_lib_directories = Directory_searchCached_depthFirst_followLinks( target_lib, DIR_LIB, 1 );
 		//List_print( depthfirst_lib_directories );
 	} else {
 		if ( context->isLib )
 		{
 			if ( !target_lib )
 			{
-				target_lib = Directory_getCachedSubdirectory_new( target, "lib" );
+				target_lib = Directory_getCachedSubdirectory_new( target, DIR_LIB );
 			}
 			if ( !Directory_exists( target_lib ) )
 			{
@@ -267,7 +269,7 @@ bool Package_buildPackage( const Package* self, const IDirectory* target, const 
 		}
 		if ( package_lib )
 		{
-			depthfirst_lib_directories = Directory_searchCached_depthFirst_followLinks( package_lib, "lib", 1 );
+			depthfirst_lib_directories = Directory_searchCached_depthFirst_followLinks( package_lib, DIR_LIB, 1 );
 		} else {
 			depthfirst_lib_directories = new_List();
 		}
@@ -323,9 +325,9 @@ bool Package_buildPackage( const Package* self, const IDirectory* target, const 
 
 	if ( source )
 	{
-		const IDirectory* java = Directory_getCachedSubdirectory( source, "java" );
-		const IDirectory* cs   = Directory_getCachedSubdirectory( source, "cs" );
-		const IDirectory* src  = Directory_getCachedSubdirectory( source, "src" );
+		const IDirectory* java = Directory_getCachedSubdirectory( source, SRC_DIR_JAVA );
+		const IDirectory* cs   = Directory_getCachedSubdirectory( source, SRC_DIR_CS );
+		const IDirectory* src  = Directory_getCachedSubdirectory( source, SRC_DIR_C );
 		
 //		if ( java )
 //		{
@@ -1116,7 +1118,7 @@ RetrieveIncludeDirs( IList* list, const IDirectory* dir )
 		const IPath* path = Directory_getRealPath( subdir );
 		const char* name = Path_getBasename( path );
 		
-		if ( CharString_startsWith( name, "lib" ) )
+		if ( CharString_startsWith( name, PREFIX_LIB ) ) // If starts with lib eg. libsuperman
 		{
 			if ( Directory_containsDirectory( subdir, "include" ) )
 			{

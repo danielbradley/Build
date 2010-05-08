@@ -7,6 +7,7 @@
  *  I.S.Labs is a registered trademark of Daniel Robert Bradley
  */
 
+#include "islabs/build/_Defines.h"
 #include "islabs/build/BuildManager.h"
 #include "islabs/build/Buildable.protected.h"
 #include "islabs/build/Package.protected.h"
@@ -28,25 +29,25 @@ IIndex* suites     = 0;
 static int determineBuildableType( const IDirectory* aDirectory )
 {
 	int type;
-	if ( Directory_containsDirectory( aDirectory, "source" ) )
+	if ( Directory_containsDirectory( aDirectory, DIR_SOURCE ) )
 	{
 		const char* base = Path_getBasename( Directory_getRealPath( aDirectory ) );
-		const IDirectory* sourcedir = Directory_getCachedSubdirectory( aDirectory, "source" );
+		const IDirectory* sourcedir = Directory_getCachedSubdirectory( aDirectory, DIR_SOURCE );
 		type = PACKAGE;
 
-		if ( Directory_containsDirectory( sourcedir, "java" ) )
+		if ( Directory_containsDirectory( sourcedir, SRC_DIR_JAVA ) )
 		{
 			type = JAVA_PACKAGE;
 		}
-		else if ( Directory_containsDirectory( sourcedir, "cs" ) )
+		else if ( Directory_containsDirectory( sourcedir, SRC_DIR_CS ) )
 		{
 			type = DOTNET_PACKAGE;
 		}
-		else if ( CharString_startsWith( base, "test" ) )
+		else if ( CharString_startsWith( base, PREFIX_TEST ) )
 		{
 			type = TEST_PACKAGE;
 		}
-		else if ( CharString_startsWith( base, "lib" ) )
+		else if ( CharString_startsWith( base, PREFIX_LIB ) )
 		{
 			type = LIBRARY_PACKAGE;
 		} else {
@@ -60,7 +61,7 @@ static int determineBuildableType( const IDirectory* aDirectory )
 		for ( i=0; i < max; i++ )
 		{
 			const IDirectory* subdir = Set_get( directories, i );
-			if ( Directory_containsDirectory( subdir, "source" ) )
+			if ( Directory_containsDirectory( subdir, DIR_SOURCE ) )
 			{
 				type = SUITE;
 				break;
@@ -70,7 +71,7 @@ static int determineBuildableType( const IDirectory* aDirectory )
 		if ( SUITE == type )
 		{
 			const char* base = Path_getBasename( Directory_getRealPath( aDirectory ) );
-			if ( 0 == CharString_compare( base, "testing" ) )
+			if ( 0 == CharString_compare( base, DIR_TESTING ) )
 			{
 				type = TEST_SUITE;
 			} else {
@@ -107,51 +108,51 @@ Buildable_getInstance( BuildManager* bm, const IDirectory* aDirectory )
 		case USER_PACKAGE:
 			b = (Buildable*) new_Package( bm, aDirectory );
 			Buildable_setType( b, USER_PACKAGE );
-			type_name = "User Package";
+			type_name = LABEL_PACKAGE_USER;
 			break;
 		case LIBRARY_PACKAGE:
 			b = (Buildable*) new_Package( bm, aDirectory );
 			Buildable_setType( b, LIBRARY_PACKAGE );
-			type_name = "Library Package";
+			type_name = LABEL_PACKAGE_LIBRARY;
 			break;
 		case SOFTWARE_PACKAGE:
 			b = (Buildable*) new_Package( bm, aDirectory );
 			Buildable_setType( b, SOFTWARE_PACKAGE );
-			type_name = "Software Package";
+			type_name = LABEL_PACKAGE_SOFTWARE;
 			break;
 		case JAVA_PACKAGE:
 			b = (Buildable*) new_Package( bm, aDirectory );
 			Buildable_setType( b, JAVA_PACKAGE );
-			type_name = "Java Package";
+			type_name = LABEL_PACKAGE_JAVA;
 			break;
 		case DOTNET_PACKAGE:
 			b = (Buildable*) new_Package( bm, aDirectory );
 			Buildable_setType( b, DOTNET_PACKAGE );
-			type_name = ".NET Package";
+			type_name = LABEL_PACKAGE_CS;
 			break;
 		case TEST_PACKAGE:
 			b = (Buildable*) new_TestPackage( bm, aDirectory );
 			Buildable_setType( b, TEST_PACKAGE );
-			type_name = "Test Package";
+			type_name = LABEL_PACKAGE_TEST;
 			break;
 		case SUITE:
 			b = (Buildable*) new_Suite( bm, aDirectory );
 			Buildable_setType( b, SUITE );
-			type_name = "Suite";
+			type_name = LABEL_SUITE;
 			break;
 		case TEST_SUITE:
 			b = (Buildable*) new_TestSuite( bm, aDirectory );
 			Buildable_setType( b, TEST_SUITE );
-			type_name = "Test Suite";
+			type_name = LABEL_SUITE_TEST;
 			break;
 		case SOFTWARE_SUITE:
 			b = (Buildable*) new_Suite( bm, aDirectory );
 			Buildable_setType( b, SOFTWARE_SUITE );
-			type_name = "Software Suite";
+			type_name = LABEL_SUITE_SOFTWARE;
 			break;
 		case COLLECTION:
 			b = NULL;
-			type_name = "Unknown/Collection";
+			type_name = UNKNOWN_COLLECTION;
 			break;
 		default:
 			type_name = "Abort!!";
@@ -235,34 +236,34 @@ Buildable_getTypeName( const Buildable* self )
 	switch ( self->type )
 	{
 	case PACKAGE:
-		type_name = "Package";
+		type_name = LABEL_PACKAGE;
 		break;
 	case USER_PACKAGE:
-		type_name = "User Package";
+		type_name = LABEL_PACKAGE_USER;
 		break;
 	case LIBRARY_PACKAGE:
-		type_name = "Library Package";
+		type_name = LABEL_PACKAGE_LIBRARY;
 		break;
 	case SOFTWARE_PACKAGE:
-		type_name = "Software Package";
+		type_name = LABEL_PACKAGE_SOFTWARE;
 		break;
 	case JAVA_PACKAGE:
-		type_name = "Java Package";
+		type_name = LABEL_PACKAGE_JAVA;
 		break;
 	case TEST_PACKAGE:
-		type_name = "Test Package";
+		type_name = LABEL_PACKAGE_TEST;
 		break;
 	case SUITE:
-		type_name = "Suite";
+		type_name = LABEL_SUITE;
 		break;
 	case TEST_SUITE:
-		type_name = "Test Suite";
+		type_name = LABEL_SUITE_TEST;
 		break;
 	case SOFTWARE_SUITE:
-		type_name = "Software Suite";
+		type_name = LABEL_SUITE_SOFTWARE;
 		break;
 	case COLLECTION:
-		type_name = "Unknown/Collection";
+		type_name = UNKNOWN_COLLECTION;
 		break;
 	default:
 		type_name = "Abort!!";
@@ -346,6 +347,9 @@ bool Buildable_buildTo( const Buildable* self, const IDirectory* target, const B
 	bool result = 0;
 
 	bool build_on = 1;
+
+	//fprintf( stdout, "target %s\n", Path_getAbsolute( Directory_getPath( target ) ) );
+
 	//	Here we keep track of software suites.
 	IIndex* suites = BuildManager_getSuitesIndex( self->bm );
 	{
@@ -354,7 +358,7 @@ bool Buildable_buildTo( const Buildable* self, const IDirectory* target, const B
 
 		if ( BuildParameters_isNear( parameters ) )
 		{
-			if ( 0 == CharString_compare( type_name, "Library Package" ) )
+			if ( 0 == CharString_compare( type_name, LABEL_PACKAGE_LIBRARY ) )
 			{
 				if ( !Index_containsKey( suites, suite_name ) )
 				{

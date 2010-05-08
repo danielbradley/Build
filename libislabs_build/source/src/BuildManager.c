@@ -7,6 +7,7 @@
  *  I.S.Labs is a registered trademark of Daniel Robert Bradley
  */
 
+#include "islabs/build/_Defines.h"
 #include "islabs/build/Buildable.h"
 #include "islabs/build/BuildManager.h"
 #include "islabs/build/version.h"
@@ -135,7 +136,7 @@ BuildManager_GetVersion()
 
 void EnsureDefaultBuildPath( const char* topdir )
 {
-	const char* existing_build_path = Environment_GetEnvironmentValue( "BUILD_PATH" );
+	const char* existing_build_path = Environment_GetEnvironmentValue( BUILD_PATH_ENV );
 	char sep = Environment_GetPathSeparator();
 	{
 		IPath* path                  = new_Path( topdir );
@@ -149,7 +150,7 @@ void EnsureDefaultBuildPath( const char* topdir )
 			const char* greatgrandparent = Path_getNativeFormat( greatgrandparent_path );
 
 			char* build_path = new_CharString_format_args( "%s%c%s%c%s%c%s", existing_build_path, sep, parent, sep, grandparent, sep, greatgrandparent );
-			Environment_SetEnvironmentValue( "BUILD_PATH", build_path, 1 );
+			Environment_SetEnvironmentValue( BUILD_PATH_ENV, build_path, 1 );
 			free_CharString( build_path );
 		}
 		free_Path( path );
