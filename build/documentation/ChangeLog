@@ -1,0 +1,104 @@
+Release information for Build
+Daniel Robert Bradley
+
+Version information for build is based upon a <MAJOR>.<MINOR>.<MINI>
+versioning system.
+The MAJOR number refers to the public release version.
+The MINOR number corresponds to source branches within the cvs - similar
+to versioning of the Linux kernel: each odd number is considered to be an
+unstable branch in which significant modifications/additions may be made,
+whereas each even number is considered to be a stable branch where changes
+are only made to fix bugs.
+The MINI number refers to tags within the CVS repository.
+Tags within the cvs are of the form "build-<MAJOR>_<MINOR>_<MINI>".
+
+0.8.0
+
+Lots has changed. Lots has stayed the same. Mainly fixed bugs.
+
+0.5.1
+
+This is the first major revision of the 0.4 code base. Support for
+loadable "toolset" modules is being added. Objects that need to be
+shared between the build executable and loaded library modules are
+being moved to a library. This is mainly necessary as under Windows
+I can't find a way to have a DLL resolve to symbols defined in the
+parent executable.
+
+In short, a toolset module handles the usage of the compiler and
+linker from a particular vendor on a particular platform. The
+build executable tells the toolset that something should be compiled
+and the toolset determines how it should be compiled.
+
+0.3.4.1
+
+Added usage statement and added several new command line options.
+Importantly added -r (recursive) option which causes build to
+follow dependency package links. Changed --all to --deep; builds deeply
+within the target directory. Added -n (no means no). Added --help which
+prints the command summary. Added --log which creates build.log file of
+commands that were/would be, executed. Added --copy-libs option to copy
+library dependencies to bin directory.
+
+0.3.4
+
+Due to excessive command line lengths cause by multiple inclusions, the
+sub-functions of initializeFlags now only include those dependency
+directories that contain unique directories.
+
+Most work is now done in determineLibs/determineLibsFlags; each time a
+new library is encountered it is added to the -l flags and the directory
+it is within is added to the -L and -Wl,-R$ORIGIN flags.
+
+0.3.3.1
+
+Directory_open(): Fixed bug that had directory's file descriptors not being closed 
+
+0.3.3
+
+build.c's initialize flags function now uses the Directory class's
+Directory_search method to retrieve a list dependency lib directories. This
+is now used to determine "-L" lib dirs, "-l" linkage flags and "-Wl,-rpath"
+$ORIGIN style runtime flags.
+
+The program now recursively searches the entire dependency hierarchy and attempts
+to link everything it encounters. While this isn't optimally elegant, it works.
+This was caused by the disappearence of existing linkage functionality. Need to
+investigate this in the future.
+
+0.3.2
+
+Build is now pretty stable on linux-gnu and win32 platforms. The only problem
+on Win32 seems to be long path lengths: canonicalization of link target paths
+has been used to reduce the length of dependency paths, however compiler output
+file paths are still causing problems for deeply nested source packages. Note that
+this isn't really a problem with build, but a limitation on maximum path length
+under windows.
+
+Cygwin PSA work has been put on hold while the rest of the functionality to be
+added for 0.3 is added.
+
+0.3.1
+
+A lot has been done for this revision as support for cygwin and win32 is
+being heavily worked upon. In particular IO and Process PSA files have been
+added. Linux-gnu and cygwin ports seem stable, not sure about win32.
+
+0.3
+
+Default behaviour now is to only build local source directory. Recursive
+builds can be enabled using the --all or --depth <n> parameters. Fixed
+some bugs.
+
+0.2
+
+Did a major overhaul of the proof-of-concept. Got rid of global variables
+and properly deliniated between Global flags and flags for a specific
+compilation context.
+
+0.1
+
+Proof of concept implementation of the general "build" idea. Honestly, its 
+pretty ugly with no real effort to deallocate memmory or do recursion that
+well. I'm pretty surprised that I was actually able to use it to 
+perform builds of version 0.2.

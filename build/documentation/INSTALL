@@ -1,0 +1,24 @@
+		Build Version 0.8.0 (2008) Install Instructions
+		Copyright (c) 2008, Daniel Robert Bradley
+
+TO BUILD AND INSTALL
+	We now emulate (badly) the GNU build system - configure, make, make install
+	This will be improved for the 1.0 release.
+
+	For posix systems type:
+
+		cd build-0.8.0/Source
+		./configure [--prefix=PATH]
+		make
+		make install
+
+	For win32 type:
+
+		cd build-0.8.0\Source
+		set PREFIX=PATH
+		configure
+		make
+		make install
+
+ENJOY
+	May you never need to use make again!

@@ -1,0 +1,102 @@
+06 Feb 2008:	build-0.8.0rc0
+
+	Just general tidying up and fixing of bugs.
+	Support for non-C/C++ is still unstable.
+	Support for paths with spaces is doubtful.
+
+13 Jan 2006:	build-0.7.0
+
+	Have added basic support for building java projects and added
+	islabs_jdk_sun provider.
+	To build java put source hierarchy under package/source/java,
+	and put manifest file in package/source/java/META-INF/MANIFEST.MF
+
+06 Jul 2005:	build-0.6.0
+
+	Now adds -L<DIR> for specified system libraries, eg. -L/usr/X11R6/lib
+	for link files to /usr/X11R6/lib/libX11.so.
+	Fixed bug where non-existant lib directory caused build failure.
+	Fixed incorrect --version problem.
+
+09 Mar 2005:	build-0.5.17
+
+	islabs_win32_gnu provider has been implemented. It seems to
+	work reasonably but doesn't yet compile the OpenOCL libraries.
+	There are still a number of memory leaks, these will be removed
+	during 0.6. Test Packages are now checked to see if they have been
+	already run.
+
+08 Mar 2005:	build-0.5.16
+
+	Package compile scripts updated for linux and win32.
+	islabs_win32_gnu (MinGW) provider still needs to be reimplemented.
+
+08 Mar 2005:	build-0.5.15
+
+	Removed legacy code path (in attic) and commented out old
+	provider functions. islabs_win32_gnu provider still needs to
+	be reimplemented. Package compile scripts need to be modified
+	to reflect the changes. 
+
+07 Mar 2005:	build-0.5.14
+
+	Removed Link.h and Link.c from libislabs_build.
+
+07 Mar 2005:	build-0.5.13
+
+	Implicit --build-tests argument assumed if run from within
+	a test directory. There is currently a small amount of
+	unallocated memory when the program terminates.
+
+04 Mar 2005:	build-0.5.12
+
+	Now stops if an error is encountered compiling a package/file.
+	Incremental compilation seems to be working correctly. Will be
+	removing all the legacy stuff very soon in anticipation of
+	version 0.6.0.
+
+14 Feb 2005:	build-0.5.11
+
+	Have implemented incremental compilation. Each source file (.c,.cpp)
+	is compare to its corresponding object file. If it has been modified
+	the file is recompiled. To override use --force argument.
+
+	Note that changes to headers will not yet be recognized.
+
+05 Nov 2004:	build-0.5.10
+
+	Have implemented --build-tests-only and --run-tests-only, and made
+	--monolithic default. Updated openocl version dependency links in
+	lib.
+
+03 Nov 2004:	build-0.5.9
+
+	Have disabled distributable code-path completely.
+
+03 Nov 2004:	build-0.5.8
+
+	Have implemented --run-tests.
+
+01 Nov 2004:	build-0.5.7
+
+	Have implemented TestPackage, Suite and TestSuite types. Only
+	thing that isn't implemented on the buildable code path so far
+	is --run-tests.
+
+28 Oct 2004:	build-0.5.6
+
+	Moved partially over to the Buildable codepath.
+
+20 Sep 2004:	build-0.5.5
+08 Sep 2004:	build-0.5.4
+30 Aug 2004:	build-0.5.3pre1
+				libopenocl_base_psa-1.0.1
+				libopenocl_io_psa-1.0.1
+				libopenocl_provider-1.0.1
+
+18 Aug 2004:	build-0.5.2
+				libopenocl_base_psa-1.0.1
+				libopenocl_io_psa-1.0.1
+				libopenocl_provider-1.0.1
+
+17 Aug 2004:	build-0.5.1

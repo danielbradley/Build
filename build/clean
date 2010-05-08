@@ -1,0 +1,18 @@
+#!/bin/bash
+#
+#	This script removes all the object files, libraries and
+#	shared objects created by "compile"
+#
+
+RM=rm
+
+VERSION=0.5
+SUFFIX=5
+
+$RM -rf bin
+$RM -rf obj
+$RM -rf providers/lib
+$RM -rf providers/obj
+
+$RM -rf lib/libislabs_build-$VERSION/lib/*lib
+$RM -rf lib/libislabs_build-$VERSION/obj
