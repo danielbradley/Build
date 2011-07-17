@@ -39,7 +39,7 @@ static int determineBuildableType( const IDirectory* aDirectory )
 		{
 			type = JAVA_PACKAGE;
 		}
-		else if ( Directory_containsDirectory( sourcedir, SRC_DIR_CS ) )
+		else if ( Directory_containsDirectory( sourcedir, SRC_DIR_CSHARP ) )
 		{
 			type = DOTNET_PACKAGE;
 		}

@@ -325,9 +325,10 @@ bool Package_buildPackage( const Package* self, const IDirectory* target, const 
 
 	if ( source )
 	{
-		const IDirectory* java = Directory_getCachedSubdirectory( source, SRC_DIR_JAVA );
-		const IDirectory* cs   = Directory_getCachedSubdirectory( source, SRC_DIR_CS );
-		const IDirectory* src  = Directory_getCachedSubdirectory( source, SRC_DIR_C );
+		const IDirectory* java      = Directory_getCachedSubdirectory( source, SRC_DIR_JAVA );
+		const IDirectory* csharp    = Directory_getCachedSubdirectory( source, SRC_DIR_CSHARP );
+		const IDirectory* c         = Directory_getCachedSubdirectory( source, SRC_DIR_C );
+		const IDirectory* cplusplus = Directory_getCachedSubdirectory( source, SRC_DIR_CPLUSPLUS );
 		
 //		if ( java )
 //		{
@@ -447,8 +448,10 @@ bool Package_buildPackage( const Package* self, const IDirectory* target, const 
 //			
 //			free_List( search_results );
 //		}
-		if ( src )
+		if ( c || cplusplus )
 		{
+			const IDirectory* src = ( c ) ? c : cplusplus;
+		
 			const ISet* src_files = Directory_getCachedFiles( src );
 			unsigned int count = Set_count( src_files );
 			unsigned int i;

@@ -1,5 +1,7 @@
 #!/bin/bash
 #
+#	Compile v0.x
+#
 #	Set the location of your C Compiler here
 #
 
@@ -108,7 +110,7 @@ CPPFLAGS="${CPPFLAGS} -I${LIBX}/include -I${LIBX}/source/include -Isource/includ
 
 if   [ "darwin" == "$PLATFORM" ]
 then
-	CFLAGS="-c -g -Wno-long-double"
+	CFLAGS="-c -g"
 elif [ "solaris" == "$PLATFORM" ]
 then
 	CFLAGS="-c -g --PIC"

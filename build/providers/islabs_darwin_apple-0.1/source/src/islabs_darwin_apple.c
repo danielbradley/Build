@@ -257,7 +257,7 @@ static int private_link_library( const void* buildParameters, const void* provid
 		//	List_copyItem( arguments, "-Wl,-G" );
 		//}
 		List_copyItem( arguments, "-shared" );
-		List_copyItem( arguments, "-r" );
+		// DB July List_copyItem( arguments, "-r" );
 		List_copyItem( arguments, "-dynamic" );
 
 		//  Object files: need to be before archive libraries so

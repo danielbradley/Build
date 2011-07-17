@@ -202,7 +202,7 @@ static int private_jar( const void* buildParameters, const void* providerContext
 
 			if ( !BuildParameters_isNo( parameters ) && Command_run( command ) && Command_waitFor( command ) )
 			{
-				fprintf( stdout, "%s", command );
+				fprintf( stdout, "%s", command->command );
 				status &= Command_getResult( command );
 			} else {
 				fprintf( stderr, "failed: " );

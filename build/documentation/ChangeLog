@@ -12,6 +12,8 @@ are only made to fix bugs.
 The MINI number refers to tags within the CVS repository.
 Tags within the cvs are of the form "build-<MAJOR>_<MINOR>_<MINI>".
 
+0.9.0
+
 0.8.0
 
 Lots has changed. Lots has stayed the same. Mainly fixed bugs.

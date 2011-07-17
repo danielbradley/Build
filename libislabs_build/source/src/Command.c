@@ -104,9 +104,9 @@ void Command_print( const Command* self, FILE* stream )
 	const char** list = (const char**) self->arguments;
 	unsigned int max = CharStringList_getLength( list );
 	unsigned int i;
-	fprintf( stream, "%s\n", list[0] );
+	fprintf( stream, "%s \\\n", list[0] );
 	for ( i=1; i < max; i++ )
 	{
-		fprintf( stream, "\t%s\n", list[i] );
+		fprintf( stream, "\t%s \\\n", list[i] );
 	}
 }

@@ -1,19 +1,19 @@
-                    Build Version 0.5.17x (2005) Readme
-              Copyright (c) 2004-2005, Daniel Robert Bradley
+                    Build Version 0.9.0 (2010) Readme
+              Copyright (c) 2004-2010, Daniel Robert Bradley
 
                        One tool to build them all,
                         one tool to compile them.
                         One tool to link them all
                      and in the background test them.
 
-Last updated: 11/07/2005
+Last updated: 08/05/2010
 
 ABOUT
 	Build is a replacement for make. It was conceived out  of  the
 	slow refinement of the makefiles that I had developed to build
-	the libraries that form OpenOCL. Eventually the makefiles were
+	the libraries that form OpenXDS. Eventually the makefiles were
 	refined to the point where I could use the exact same makefile
-	for all libraries, however at that point I began to forget how
+	for  all  libraries.  Unfortunately I also began to forget how
 	the makefiles actually worked.
 
 	Thus I decided that I may as well code what the makefiles were
@@ -45,15 +45,15 @@ PROJECT DIRECTORY STRUCTURE
 
 		libcoffee-0.1.1/include/CoffeeAPI.h
 		libcoffee-0.1.1/source/include/{Grounds.h,Milk.h}
-		libcoffee-0.1.1/source/src/{Grounds.cpp,Milk.cpp}
+		libcoffee-0.1.1/source/c++/{Grounds.cpp,Milk.cpp}
 
-	Header files that would be included in a  program  making  use
+	Header  files that would be included in a program  making  use
 	of the library are  put  in  the  project  directory's  public
-	include directory, while header files private to  the  library
+	include directory,  while header files private to the  library
 	are put in the source directory's include directory.
 	
 	Below shows the  layout  of  the  project  directory  after  a
-	build. Note  that  directories  between  the  hypons (--)  are
+	build.  Note  that  directories  between  the  hypons (--) are
 	created during the build process. Also note that  the  project
 	does not have to be built within the source directory.
 	
@@ -62,7 +62,7 @@ PROJECT DIRECTORY STRUCTURE
 	--	libcoffee-0.1.1/lib/{libcoffee.so.0,libcoffee.so} --
 	--	libcoffee-0.1.1/obj/{Grounds.o,Milk.o}            --
 		libcoffee-0.1.1/source/include/{Grounds.h,Milk.h}
-		libcoffee-0.1.1/source/src/{Grounds.cpp,Milk.cpp}
+		libcoffee-0.1.1/source/c++/{Grounds.cpp,Milk.cpp}
 
 	The names of  binaries are taken from the project's  directory
 	name. Library names also use the version of the package.
@@ -73,7 +73,7 @@ PROJECT DIRECTORY STRUCTURE
 	files for each  source file in ./obj, and  three  libraries in
 	./lib - two versioned shared libraries and one archive.
 
-	Non-library projects produce one  binary that is placed in the
+	Non-library  projects produce one binary that is placed in the
 	./bin directory.
 
 PLATFORM SPECIFIC SOURCE FILES
@@ -102,10 +102,10 @@ DEALING WITH LIBRARY DEPENDENCIES
 	structure would be as follows:
 	
 		libcoffee-0.1.1/include/CoffeeAPI.h
-	--	libcoffee-0.1.1/lib/libsugar-0.1.2/include/Sugar.h      --
-	--	libcoffee-0.1.1/lib/libsugar-0.1.2/source/src/Sugar.cpp --
+	--	libcoffee-0.1.1/dep/libsugar-0.1.2/include/Sugar.h      --
+	--	libcoffee-0.1.1/dep/libsugar-0.1.2/source/c++/Sugar.cpp --
 		libcoffee-0.1.1/source/include/{Grounds.h,Milk.h}
-		libcoffee-0.1.1/source/src/{Grounds.cpp,Milk.cpp}
+		libcoffee-0.1.1/source/c++/{Grounds.cpp,Milk.cpp}
 
 	When  run if a  recursive  mode is selected (--all, --level n)
 	build will descend into each  dependency and compile it before
@@ -155,11 +155,11 @@ USING LINK FILES (handling multi-package dependencies)
 	below:
 
 		libcoffee-0.1.1/include/CoffeeAPI.h
-	--	libcoffee-0.1.1/lib/libsugar-0.1.2.link             --
+	--	libcoffee-0.1.1/dep/libsugar-0.1.2.link             --
 		libcoffee-0.1.1/source/include/{Grounds.h,Milk.h}
-		libcoffee-0.1.1/source/src/{Grounds.cpp,Milk.cpp}
+		libcoffee-0.1.1/source/c++/{Grounds.cpp,Milk.cpp}
 		libsugar-0.1.2/include/Sugar.h
-		libsugar-0.1.2/source/src/Sugar.cpp
+		libsugar-0.1.2/source/c++/Sugar.cpp
 
 	Where the contents of libsugar-0.1.2.link is:
 
@@ -184,11 +184,11 @@ USING LINK FILES (handling multi-package dependencies)
 	Example:
 
 		libcoffee-0.1/include/CoffeeAPI.h
-	--	libcoffee-0.1/lib/libsugar-0.1.link             --
+	--	libcoffee-0.1/dep/libsugar-0.1.link             --
 		libcoffee-0.1/source/include/{Grounds.h,Milk.h}
-		libcoffee-0.1/source/src/{Grounds.cpp,Milk.cpp}
+		libcoffee-0.1/source/c++/{Grounds.cpp,Milk.cpp}
 		libsugar-0.1/include/Sugar.h
-		libsugar-0.1/source/src/Sugar.cpp
+		libsugar-0.1/source/c++/Sugar.cpp
 
 		[libsugar-0.1.link]
 		../../libsugar-0.1.2
@@ -199,6 +199,23 @@ USING LINK FILES (handling multi-package dependencies)
 	you  keep  your  link  files  up-to-date a release may contain
 	fine  grained package version dependency information and still
 	be appropriately built by build.
+
+USE OF BUILD PATH
+
+	Build  now  supports the use of a Build Path  mechanism to aid
+	the  resolving of dependency  locations.  These  locations are
+	specified  relative to a BUILD_PATH  variable which,  during a
+	build,  is replaced  with  each of the  Build Path directories
+	until the desired dependency is found.  By default the current
+	directory  and a few ancestors are included in the Build Path.
+	Additional  directories may be added by specifying them in the
+	BUILD_PATH environment variable, separated by colons (':').
+
+	Using a Build Path the  contents of the libsugar.link file may
+	appear as follows:
+
+		${BUILD_PATH}/libsugar-0.1.2
+		${BUILD_PATH}/libsugar-0.1
 
 SUPPORTED LANGUAGES
 

@@ -21,10 +21,10 @@
 #define PREFIX_TEST      "test"
 #define PREFIX_LIB       "lib"
 
-#define SRC_DIR_C        "c"
-#define SRC_DIR_CPP      "cpp"
-#define SRC_DIR_CS       "cs"
-#define SRC_DIR_JAVA     "java"
+#define SRC_DIR_C         "c"
+#define SRC_DIR_CPLUSPLUS "cplusplus"
+#define SRC_DIR_CSHARP    "csharp"
+#define SRC_DIR_JAVA      "java"
 
 #define SRC_SUFFIX_C     ".c"
 #define SRC_SUFFIX_CPP   ".cpp"
