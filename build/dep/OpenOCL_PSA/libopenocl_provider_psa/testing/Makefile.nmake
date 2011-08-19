@@ -1,0 +1,13 @@
+BUILD=\Local\checkouts\Build\build-0.5\bin\build.exe
+
+all: build run
+
+build:
+	cd testCharString
+	$(BUILD) -s --debug-lib
+	cd ..
+	
+run:
+	cd testCharString
+	bin\testCharString
+	cd ..

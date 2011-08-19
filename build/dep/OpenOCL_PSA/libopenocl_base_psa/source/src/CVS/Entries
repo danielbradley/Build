@@ -1,0 +1,25 @@
+/Bag.c/1.2/Fri Dec  3 12:27:04 2004//
+/CRuntime.c/1.12/Wed Jan 11 04:16:48 2006//
+/CharStringBase.c/1.23/Mon Aug 20 09:27:40 2007//
+/CharStringList.c/1.3/Tue Aug 17 04:39:03 2004//
+/EnvironmentBase.c/1.15/Wed Feb 13 05:54:49 2008//
+/Hashtable.c/1.6/Mon Mar 14 02:25:13 2005//
+/Index.c/1.7/Thu Feb  7 04:38:46 2008//
+/Iterator.c/1.1/Mon Feb 21 02:08:40 2005//
+/List.c/1.6/Thu Feb  7 03:36:17 2008//
+/Map.c/1.6/Mon Mar 14 02:25:13 2005//
+/MathBase.c/1.2/Tue Jan  4 06:29:44 2005//
+/Node.c/1.1/Sat Oct  2 07:20:16 2004//
+/Profile.c/1.6/Tue Aug  8 02:19:47 2006//
+/Sequence.c/1.4/Mon Aug 29 01:14:16 2005//
+/Set.c/1.2/Fri Dec  3 12:27:04 2004//
+/Sort.c/1.2/Tue Mar  8 03:07:11 2005//
+/Stack.c/1.4/Fri Nov  5 05:12:19 2004//
+D/cygwin////
+D/oldsolaris2.8////
+D/posix////
+D/solaris2.6////
+D/win32////
+D/solaris////
+D/linux-gnu////
+D/darwin////

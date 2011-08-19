@@ -1,0 +1,9 @@
+22 Jun 2005:	libopenocl_threads_psa-1.0.8
+22 Jun 2005:	libopenocl_threads_psa-1.0.7
+22 Jun 2005:	libopenocl_threads_psa-1.0.6
+
+Added win32 implementation.
+
+04 Nov 2004:	libopenocl_threads_psa-1.0.5
+18 Sep 2004:	libopenocl_threads_psa	initial import
+
