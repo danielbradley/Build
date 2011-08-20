@@ -67,11 +67,11 @@ Arguments_new( unsigned int argc, char** argv )
 			case NEW:
 				self->new = 1;
 				break;
-			case D:
-			case DEEP:
-				self->deep = 1;
-				if ( self->recursive ) self->invalid = 1;
-				break;
+//			case D:
+//			case DEEP:
+//				self->deep = 1;
+//				if ( self->recursive ) self->invalid = 1;
+//				break;
 			case HASH:
 				i++;
 				hash = simple_hash( argv[i] );
@@ -112,17 +112,17 @@ Arguments_new( unsigned int argc, char** argv )
 			case STATIC:
 				self->buildStatic = 1;
 				break;
-			case LEGACY:
-				self->legacy = 1;
-				break;
+//			case LEGACY:
+//				self->legacy = 1;
+//				break;
 			case SHARED:
 				self->buildShared = 1;
 				break;
-			case T:
-			case TARGET:
-				i++;
-				self->target = CharString_copy( argv[i] );
-				break;
+//			case T:
+//			case TARGET:
+//				i++;
+//				self->target = CharString_copy( argv[i] );
+//				break;
 			case S:
 			case STATIC2:
 				self->buildStatic = 1;
@@ -145,11 +145,11 @@ Arguments_new( unsigned int argc, char** argv )
 			case DEBUG_LIBC:
 				self->debugLibc = 1;
 				break;
-			case R:
-			case RECURSIVE:
-				self->recursive = 1;
-				if ( self->deep ) self->invalid = 1;
-				break;
+//			case R:
+//			case RECURSIVE:
+//				self->recursive = 1;
+//				if ( self->deep ) self->invalid = 1;
+//				break;
 			case MONOLITHIC:
 				self->monolithic = 1;
 				break;

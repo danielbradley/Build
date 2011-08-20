@@ -424,7 +424,7 @@ static char* to_truncated_alpha_string( const char* string )
 	int   i;
 	for ( i=0; i < len; i++ )
 	{
-		if ( !isalpha( truncated[i] ) )
+		if ( isdigit( truncated[i] ) )
 		{
 			truncated[i] = '\0';
 			break;

@@ -226,7 +226,7 @@ int build_using_build_manager( Arguments* arguments, Global* global, const char*
 
 void printUsage()
 {
-	fprintf( stdout, "Usage: build [ --new OR --legacy ] [options] [source package directory]\n" );
+	fprintf( stdout, "Usage: build [options] [source package directory]\n" );
 	fprintf( stdout, "Options:\n" );
 	//						          "                                                         "
 	fprintf( stdout, "  %-23s%s\n", "    --all",              "Compile all dependencies (SEE --deep and --recursive).   " );
@@ -238,8 +238,8 @@ void printUsage()
 	fprintf( stdout, "  %-23s%s\n", "",                       "bin directory (always on DOS/Windows platform).          " );
 	fprintf( stdout, "  %-23s%s\n", "-D <definition>",        "Defines a C preprocessor definition i.e. gcc -D<define>  " );
 	fprintf( stdout, "  %-23s%s\n", "",                       "However, use -D <definition> NOT -D<definition>.         " );
-	fprintf( stdout, "  %-23s%s\n", "-d, --deep",             "Deep compile strictly within target directory structure  " );
-	fprintf( stdout, "  %-23s%s\n", "",                       "(INCOMPATIBLE with --recursive).                         " );
+//	fprintf( stdout, "  %-23s%s\n", "-d, --deep",             "Deep compile strictly within target directory structure  " );
+//	fprintf( stdout, "  %-23s%s\n", "",                       "(INCOMPATIBLE with --recursive).                         " );
 	fprintf( stdout, "  %-23s%s\n", "    --depth <arg>",      "Compile dependencies only to specified depth.            " );
 	fprintf( stdout, "  %-23s%s\n", "    --debug",            "Define DEBUG during preprocessing (CPPFLAGS+=-DDEBUG).   " );
 	fprintf( stdout, "  %-23s%s\n", "    --debug-libc",       "Link to debug version of libc (MS Visual Studio only).   " );
@@ -247,18 +247,18 @@ void printUsage()
 	fprintf( stdout, "  %-23s%s\n", "",                       "(INCOMPATIBLE with --monolithic).                        " );
 	fprintf( stdout, "  %-23s%s\n", "-g",                     "Produce object files including debugging information.    " );
 	fprintf( stdout, "  %-23s%s\n", "    --help",             "Print this command summary.                              " );
-	fprintf( stdout, "  %-23s%s\n", "    --legacy",           "Build packages using old code path.                      " );
+//	fprintf( stdout, "  %-23s%s\n", "    --legacy",           "Build packages using old code path.                      " );
 	fprintf( stdout, "  %-23s%s\n", "    --log",              "Log all executed commands to file \"./build.log\".       " );
 	fprintf( stdout, "  %-23s%s\n", "    --monolithic",       "Add object files of non-system libraries to executable   " );
 	fprintf( stdout, "  %-23s%s\n", "",                       "(DEFAULT) (INCOMPATIBLE with --dynamic).                 " );
 	fprintf( stdout, "  %-23s%s\n", "-n",                     "No, means no! Do everything but execute external tools.  " );
 	fprintf( stdout, "  %-23s%s\n", "    --near",             "Only build this package and the closest suite." );
-	fprintf( stdout, "  %-23s%s\n", "-r, --recursive",        "Recursively follow dependency link files ie. compile into" );
-	fprintf( stdout, "  %-23s%s\n", "",                       "location of dependency package (INCOMPATIBLE with --deep)." );
+//	fprintf( stdout, "  %-23s%s\n", "-r, --recursive",        "Recursively follow dependency link files ie. compile into" );
+//	fprintf( stdout, "  %-23s%s\n", "",                       "location of dependency package (INCOMPATIBLE with --deep)." );
 	fprintf( stdout, "  %-23s%s\n", "    --release",          "Build release binaries - stripped, no debugging etc.     " );
 	fprintf( stdout, "  %-23s%s\n", "    --run-tests",        "Run compiled tests (see --build-tests).                  " );
 	fprintf( stdout, "  %-23s%s\n", "    --run-tests-only",   "Only run tests - do nothing else (see --run-tests).      " );
-	fprintf( stdout, "  %-23s%s\n", "-t, --target <arg>",     "Specify build target directory.                          " );
+//	fprintf( stdout, "  %-23s%s\n", "-t, --target <arg>",     "Specify build target directory.                          " );
 	fprintf( stdout, "  %-23s%s\n", "-v",                     "Increase verbosity of output, more means more.           " );
 	fprintf( stdout, "\n");
 	//fprintf( stdout, "Example: build -r --depth 1 --copy-libs --target /tmp/myprogram-1.0 ~/myprogram-1.0\n" );

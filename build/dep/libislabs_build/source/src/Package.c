@@ -211,7 +211,7 @@ bool Package_buildPackage( const Package* self, const IDirectory* target, const 
 	//	Obtain references to (or create) necessary directories
 	//
 
-	if ( Directory_exists( dep ) )
+	if ( dep && Directory_exists( dep ) )
 	{
 		if ( !Directory_exists( target_dep ) )
 		{
@@ -258,7 +258,12 @@ bool Package_buildPackage( const Package* self, const IDirectory* target, const 
 
 	if ( 0 != CharString_compare( package_location, target_location ) )
 	{
-		depthfirst_lib_directories = Directory_searchCached_depthFirst_followLinks( target_dep, DIR_LIB, 1 );
+		if ( target_dep )
+		{
+			depthfirst_lib_directories = Directory_searchCached_depthFirst_followLinks( target_dep, DIR_LIB, 1 );
+		} else {
+			depthfirst_lib_directories = new_List();
+		}
 	}
 	else if ( 0 == CharString_compare( package_location, target_location ) )
 	{
@@ -269,7 +274,12 @@ bool Package_buildPackage( const Package* self, const IDirectory* target, const 
 		//
 		//		Hmmm, also this wouldn't work for monolithic executables.
 		
-		depthfirst_lib_directories = Directory_searchCached_depthFirst_followLinks( dep, DIR_LIB, 1 );
+		if ( dep )
+		{
+			depthfirst_lib_directories = Directory_searchCached_depthFirst_followLinks( dep, DIR_LIB, 1 );
+		} else {
+			depthfirst_lib_directories = new_List();
+		}
 		//List_print( depthfirst_lib_directories );
 	} else {
 		if ( dep )
