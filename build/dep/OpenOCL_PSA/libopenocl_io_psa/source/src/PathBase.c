@@ -261,40 +261,70 @@ new_Path_WinPOSIX( const char* location )
 
 	if ( ':' == self->original[vci] )
 	{
-		self->volume = CharString_substring_start_length( self->original, 0, CharString_CountPositions( 0, vci-1 ) );
-		self->common = Path_CondensePath( &self->original[vci+1] );
-	}
-    else
-	{
-		self->volume = System_CurrentVolume();
-		self->common = Path_CondensePath( self->original );
-	}
+		//	Treat as DOS path.
 
-	CharString_replace( self->common, '\\', '/' );
-	if ( '/' == self->common[0] )
-	{
-		if ( '\0' != self->volume[0] )
+		if ( ':' == self->original[vci] )
 		{
-			self->absolute = CharString_cat3( self->volume, ":", self->common );
-		} else {
-			self->absolute = new_CharString( self->common );
+			self->volume = CharString_substring_start_length( self->original, 0, CharString_CountPositions( 0, vci-1 ) );
 		}
-	} else {
-		char* tmp = System_CurrentDirectory();
+	
+		char* tmp = new_CharString( &self->original[vci+1] );
+		CharString_replace( tmp, '\\', '/' );
 		
-		if ( '/' == tmp[CharString_getLength( tmp )-1] )
+		if ( '/' == tmp[0] )
 		{
-			self->absolute = CharString_cat2( tmp, self->common );
+			//	Already absolute
+			self->common = Path_CondensePath( tmp );
 		} else {
-			self->absolute = CharString_cat3( tmp, "/", self->common );
-		}		
+			//	Convert to absolute.
+			char* cwd = System_CurrentDirectory();
+			{
+				char* full = CharString_cat3( cwd, "/", tmp );
+				{
+					self->common = Path_CondensePath( full );
+				}
+				free_CharString( full );
+			}
+			free_CharString( cwd );
+		}
+		free_CharString( tmp );
+	}
+	else
+	{
+		//	Treat as normal path.
+	
+		char* tmp = new_CharString( self->original );
+		CharString_replace( tmp, '\\', '/' );
+		
+		if ( '/' == tmp[0] )
+		{
+			//	Already absolute
+			self->common = Path_CondensePath( tmp );
+		} else {
+			//	Convert to absolute.
+			char* cwd = System_CurrentDirectory();
+			{
+				char* full = CharString_cat3( cwd, "/", tmp );
+				{
+					self->common = Path_CondensePath( full );
+				}
+				free_CharString( full );
+			}
+			free_CharString( cwd );
+		}
 		free_CharString( tmp );
 	}
 
-	//if ( CharString_contains( self->absolute, "/.." ) )
-	//{
-	//	self->type = OPENOCL_IO_PSA_TYPE_FS_DIRECTORY_SUPER;
-	//}
+	if ( !self->volume ) self->volume = System_CurrentVolume();
+
+	if ( 0 == CharString_compare( self->volume, "" ) )
+	{
+		self->absolute = new_CharString( self->common );
+	}
+	else
+	{
+		self->absolute = CharString_cat3( self->volume, ":", self->common );
+	}
 
 	return self;
 }
