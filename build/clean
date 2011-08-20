@@ -11,8 +11,9 @@ SUFFIX=5
 
 $RM -rf bin
 $RM -rf obj
-$RM -rf providers/lib
-$RM -rf providers/obj
-
-$RM -rf lib/libislabs_build-$VERSION/lib/*lib
-$RM -rf lib/libislabs_build-$VERSION/obj
+$RM -rf providers/{lib,obj}
+$RM -rf dep/libislabs_build/{lib,obj}
+$RM -rf dep/OpenOCL_PSA/libopenocl_base_psa/{lib,obj}
+$RM -rf dep/OpenOCL_PSA/libopenocl_io_psa/{lib,obj}
+$RM -rf dep/OpenOCL_PSA/libopenocl_provider_psa/{lib,obj}
+$RM -rf dep/OpenOCL_PSA/libopenocl_threads_psa/{lib,obj}
