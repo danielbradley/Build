@@ -416,6 +416,26 @@ static int private_link_archive( const void* buildParameters, const void* provid
 		char* libname           = CharString_cat2( name, ".a" );
 		char* full_lib_location = CharString_cat3( target_location, "/lib/", libname );
 		char* obj_dir           = CharString_cat2( target_location, "/obj/" );
+
+		if ( 0 < List_count( context->objectFiles ) )
+		{
+			Command* command;
+			IList* arguments = new_List();
+			IList* native_arguments;
+	
+			List_copyItem( arguments, "rm" );
+			List_copyItem( arguments, "-f" );
+			List_copyItem( arguments, full_lib_location );
+	
+			native_arguments = Path_ConvertListToNative( arguments );
+			command = new_Command( "rm", (const char**) native_arguments->items );
+			{
+				status &= processCommand( command, parameters );
+			}
+			free_Command( command );
+			free_List( native_arguments );
+			free_List( arguments );
+		}
 	
 		if ( 0 < List_count( context->objectFiles ) )
 		{
