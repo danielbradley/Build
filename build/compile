@@ -115,7 +115,7 @@ elif [ "solaris" == "$PLATFORM" ]
 then
 	CFLAGS="-c -g --PIC"
 else
-	CFLAGS="-c -g"
+	CFLAGS="-c -g -fPIC"
 fi
 
 # LFLAGS
