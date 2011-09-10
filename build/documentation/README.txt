@@ -1,22 +1,22 @@
-                    Build Version 0.9.0 (2010) Readme
-              Copyright (c) 2004-2010, Daniel Robert Bradley
+                    Build Version 0.9.1 (2011) README
+              Copyright (c) 2004-2011, Daniel Robert Bradley
 
                        One tool to build them all,
                         one tool to compile them.
                         One tool to link them all
-                     and in the background test them.
+                      and in the darkness grind them.
 
-Last updated: 08/05/2010
+Last updated: 10 September 2011
 
 ABOUT
 	Build is a replacement for make. It was conceived out  of  the
 	slow refinement of the makefiles that I had developed to build
 	the libraries that form OpenXDS. Eventually the makefiles were
 	refined to the point where I could use the exact same makefile
-	for  all  libraries.  Unfortunately I also began to forget how
+	for all libraries.  Unfortunately I also began to  forget  how
 	the makefiles actually worked.
 
-	Thus I decided that I may as well code what the makefiles were
+	I decided that I may as well  code  what  the  makefiles  were
 	doing in C and be done with make. Hence build.
 
 KEY CONCEPT
@@ -29,7 +29,7 @@ KEY CONCEPT
 USING BUILD
 
 	To build a build compliant project one need only change into
-	the project directory and type:
+	the project directory and type "build":
 
 		cd ~/myproject
 		build
@@ -43,9 +43,9 @@ PROJECT DIRECTORY STRUCTURE
 
 	Below is shown the directory structure of a  library  project.
 
-		libcoffee-0.1.1/include/CoffeeAPI.h
-		libcoffee-0.1.1/source/include/{Grounds.h,Milk.h}
-		libcoffee-0.1.1/source/c++/{Grounds.cpp,Milk.cpp}
+	libcoffee-0.1.1/include/CoffeeAPI.h
+	libcoffee-0.1.1/source/include/{Grounds.h,Milk.h}
+	libcoffee-0.1.1/source/cplusplus/{Grounds.cpp,Milk.cpp}
 
 	Header  files that would be included in a program  making  use
 	of the library are  put  in  the  project  directory's  public
@@ -53,16 +53,15 @@ PROJECT DIRECTORY STRUCTURE
 	are put in the source directory's include directory.
 	
 	Below shows the  layout  of  the  project  directory  after  a
-	build.  Note  that  directories  between  the  hypons (--) are
-	created during the build process. Also note that  the  project
-	does not have to be built within the source directory.
+	build.  Note  that  directories  beside  the  hypons (--) are
+	created during the build process.
 	
-		libcoffee-0.1.1/include/CoffeeAPI.h
-	--	libcoffee-0.1.1/lib/libcoffee.a                   --
-	--	libcoffee-0.1.1/lib/{libcoffee.so.0,libcoffee.so} --
-	--	libcoffee-0.1.1/obj/{Grounds.o,Milk.o}            --
-		libcoffee-0.1.1/source/include/{Grounds.h,Milk.h}
-		libcoffee-0.1.1/source/c++/{Grounds.cpp,Milk.cpp}
+	libcoffee-0.1.1/include/CoffeeAPI.h
+--	libcoffee-0.1.1/lib/libcoffee.a
+--	libcoffee-0.1.1/lib/{libcoffee.so.0,libcoffee.so}
+--	libcoffee-0.1.1/obj/{Grounds.o,Milk.o}
+	libcoffee-0.1.1/source/include/{Grounds.h,Milk.h}
+	libcoffee-0.1.1/source/cplusplus/{Grounds.cpp,Milk.cpp}
 
 	The names of  binaries are taken from the project's  directory
 	name. Library names also use the version of the package.
@@ -78,12 +77,12 @@ PROJECT DIRECTORY STRUCTURE
 
 PLATFORM SPECIFIC SOURCE FILES
 
-	Source  files  located  in  subdirectories of the ./source/src
-	directory are compiled if the directory name matches a section
-	of the PLATFORM environment variable, which is  delimited by a
-	':' separator, i.e. "linux-gnu:X11". Note  that this  variable
-	must be exported. This  allows  different  packages to support
-	multiple  operating systems/environments  without the need for
+	Source files located in subdirectories of the source directory
+	are compiled if the directory name matches a  section  of  the
+	PLATFORM environment variable, which is  delimited by a  colon
+	':' separator,  i.e.  "posix:linux-gnu:X11".  Note  that  this
+	variable  must be exported.  This  allows projects to  support
+	multiple  operating  systems/environments without the need for
 	#ifdefs within code.
 
 DEALING WITH LIBRARY DEPENDENCIES
@@ -98,21 +97,21 @@ DEALING WITH LIBRARY DEPENDENCIES
 	ability  to  recursively  descend  into  and  build dependency
 	project  directories  that are located  within the parent. For
 	example  if our coffee library depended on a sugar library (or
-	maybe   that   should  be a  caffiene library)  the  directory
+	maybe   that   should  be a  caffeine library)  the  directory
 	structure would be as follows:
 	
-		libcoffee-0.1.1/include/CoffeeAPI.h
-	--	libcoffee-0.1.1/dep/libsugar-0.1.2/include/Sugar.h      --
-	--	libcoffee-0.1.1/dep/libsugar-0.1.2/source/c++/Sugar.cpp --
-		libcoffee-0.1.1/source/include/{Grounds.h,Milk.h}
-		libcoffee-0.1.1/source/c++/{Grounds.cpp,Milk.cpp}
+--	libcoffee-0.1.1/dep/libsugar-0.1.2/include/SugarAPI.h
+--	libcoffee-0.1.1/dep/libsugar-0.1.2/source/cplusplus/Sugar.cpp
+	libcoffee-0.1.1/include/CoffeeAPI.h
+  	libcoffee-0.1.1/source/include/{Grounds.h,Milk.h}
+  	libcoffee-0.1.1/source/cplusplus/{Grounds.cpp,Milk.cpp}
 
 	When  run if a  recursive  mode is selected (--all, --level n)
 	build will descend into each  dependency and compile it before
 	compiling those libraries/programs above.
 	
 	Build   will   add  the  public  include  directories  of  all
-	dependency  packages  and of their  dependencies to the header
+	dependency  packages, and of their dependencies, to the header
 	search  path  of the project being built.
 
 	Build  will  also  include  the  lib directories of dependency
@@ -134,11 +133,11 @@ BUILDING WITH SYSTEM LIBRARIES
 	library (libX11.so) the  following text file would be added to
 	the project.
 	
-		libcoffee-0.1.1/source/lib/libX11.so.link
+	libcoffee-0.1.1/source/lib/libX11.so.link
 
 	The contents of the file would be the location of the library.
 
-		/usr/X11R6/lib/libX11.so
+	/usr/X11R6/lib/libX11.so
 
 	Note   that  when  building  a  monolithic  executable  system
 	libraries are still dynamically linked.
@@ -154,16 +153,20 @@ USING LINK FILES (handling multi-package dependencies)
 	example our coffee library example could have been arranged as
 	below:
 
-		libcoffee-0.1.1/include/CoffeeAPI.h
-	--	libcoffee-0.1.1/dep/libsugar-0.1.2.link             --
-		libcoffee-0.1.1/source/include/{Grounds.h,Milk.h}
-		libcoffee-0.1.1/source/c++/{Grounds.cpp,Milk.cpp}
-		libsugar-0.1.2/include/Sugar.h
-		libsugar-0.1.2/source/c++/Sugar.cpp
+--	libcoffee-0.1.1/dep/libsugar.link
+	libcoffee-0.1.1/include/CoffeeAPI.h
+	libcoffee-0.1.1/source/include/{Grounds.h,Milk.h}
+	libcoffee-0.1.1/source/cplusplus/{Grounds.cpp,Milk.cpp}
+	libsugar-0.1.2/include/Sugar.h
+	libsugar-0.1.2/source/cplusplus/Sugar.cpp
 
-	Where the contents of libsugar-0.1.2.link is:
+	Where the contents of libsugar.link is:
 
-		../../libsugar-0.1.2
+		$BUILD_PATH/libsugar-0.1.2
+
+	$BUILD_PATH  is an  environment  variable  --  but it is  also
+	pre-populated with a projects  ancestry directories to several
+	levels.
 
 	It  should  be  noted  that  under  POSIX-style  systems  that
 	symbolic links could be used,  however these are not available
@@ -183,16 +186,22 @@ USING LINK FILES (handling multi-package dependencies)
 
 	Example:
 
-		libcoffee-0.1/include/CoffeeAPI.h
-	--	libcoffee-0.1/dep/libsugar-0.1.link             --
-		libcoffee-0.1/source/include/{Grounds.h,Milk.h}
-		libcoffee-0.1/source/c++/{Grounds.cpp,Milk.cpp}
-		libsugar-0.1/include/Sugar.h
-		libsugar-0.1/source/c++/Sugar.cpp
+--	libcoffee-0.1/dep/libsugar.link
+	libcoffee-0.1/include/CoffeeAPI.h
+	libcoffee-0.1/source/include/{Grounds.h,Milk.h}
+	libcoffee-0.1/source/cplusplus/{Grounds.cpp,Milk.cpp}
+	libsugar-0.1/include/Sugar.h
+	libsugar-0.1/source/cplusplus/Sugar.cpp
 
-		[libsugar-0.1.link]
-		../../libsugar-0.1.2
-		../../libsugar-0.1
+	[libsugar.link]
+	$BUILD_PATH/libsugar-0.1.2
+	$BUILD_PATH/libsugar-0.1
+	$BUILD_PATH/libsugar-0
+	$BUILD_PATH/libsugar
+	../../libsugar-0.1.2
+	../../libsugar-0.1
+	../../libsugar-0
+	../../libsugar
 
 	This is  useful for when your  development CVS checkout uses a
 	larger grained  versioning that the one used for releases.  If
@@ -200,27 +209,11 @@ USING LINK FILES (handling multi-package dependencies)
 	fine  grained package version dependency information and still
 	be appropriately built by build.
 
-USE OF BUILD PATH
-
-	Build  now  supports the use of a Build Path  mechanism to aid
-	the  resolving of dependency  locations.  These  locations are
-	specified  relative to a BUILD_PATH  variable which,  during a
-	build,  is replaced  with  each of the  Build Path directories
-	until the desired dependency is found.  By default the current
-	directory  and a few ancestors are included in the Build Path.
-	Additional  directories may be added by specifying them in the
-	BUILD_PATH environment variable, separated by colons (':').
-
-	Using a Build Path the  contents of the libsugar.link file may
-	appear as follows:
-
-		${BUILD_PATH}/libsugar-0.1.2
-		${BUILD_PATH}/libsugar-0.1
-
 SUPPORTED LANGUAGES
 
-	Build currently supports C and C++.
+	Build currently  supports C and C++, with initial  support for
+	Java.
 
-SUPPORTED PLATOFRMS
+SUPPORTED OPERATING SYSTEMS
 
 	Linux, Mac OS X, Windows

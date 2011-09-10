@@ -1,13 +1,11 @@
 /*
- *  Copyright (C) 2004 Daniel Robert Bradley. All rights reserved.
+ *  Copyright (C) 2004-2011 Daniel Robert Bradley. All rights reserved.
  *
  *  This software is redistributable under the terms of the GNU LGPL
  *  (Lesser General Public License).
  *
  *  I.S.Labs is a registered trademark of Daniel Robert Bradley
  */
-
-//#include "islabs/build/build.h"
 
 #include <islabs/build/Arguments.h>
 #include <islabs/build/BuildManager.h>
@@ -19,14 +17,12 @@
 #include <openocl/io/psa/Path.h>
 
 #include <fcntl.h>
-//#include <malloc.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 
 void               printUsage();
 int                   dobuild( Arguments* arguments );
-int        build_using_legacy( Arguments* arguments, Global* global, const char* package_dir, const char* target_dir );
 int build_using_build_manager( Arguments* arguments, Global* global, const char* package_dir, const char* target_dir );
 
 char* retrievePackageDirectory( const Arguments* args );
@@ -99,56 +95,13 @@ int dobuild( Arguments* arguments )
 			fprintf( stdout, "%s/build.log\n", target_dir );
 		}
 
-		if ( Arguments_isLegacy( arguments ) )
-		{
-			status = build_using_legacy( arguments, global, package_dir, target_dir );
-		}
-		else
-		{
-			status = build_using_build_manager( arguments, global, package_dir, target_dir );
-		}
-
+		status = build_using_build_manager( arguments, global, package_dir, target_dir );
 	}
 	Global_delete( global );
 	
 	CRuntime_free( target_dir );
 	CRuntime_free( package_dir );
 
-	return status;
-}
-
-int build_using_legacy( Arguments* arguments, Global* global, const char* package_dir, const char* target_dir )
-{
-	int status = 1;
-/*
-	IDirectory* package_directory = new_Directory( package_dir );
-	if ( Directory_refresh( package_directory ) )
-	{
-		if ( Directory_containsDirectory( package_directory, "source" ) )
-		{
-			//printf( "build( global, %s, %s\n", package_dir, target_dir );
-		        status = build( global, package_dir, target_dir, Arguments_isAll( arguments ) );
-		} else {
-			const IList* list = Directory_getFileList( package_directory );
-			unsigned int count = List_count( list );
-			char* current_package_dir;
-			char* current_target_dir;
-			unsigned int i;
-			for ( i=0; i < count; i++ )
-			{
-				if ( !CharString_startsWith( list->items[i], "." ) )
-				{
-					current_package_dir = CharString_cat3( package_dir, "/", list->items[i] );
-					current_target_dir  = CharString_cat3( target_dir,  "/", list->items[i] );
-					status |= build( global, current_package_dir, current_target_dir, Arguments_isAll( arguments ) );
-					free( current_package_dir );
-					free( current_target_dir );
-				}
-			}
-		}
-	}
-	free_Directory( package_directory );
-*/
 	return status;
 }
 
@@ -208,15 +161,17 @@ int build_using_build_manager( Arguments* arguments, Global* global, const char*
 				status = BuildManager_buildTo( build_manager, build_parameters, target_dir, depth );
 			}
 		
-			//if ( Arguments_isBuildTests( arguments ) || Arguments_isBuildTestsOnly( arguments ) )
-			//{
-			//	BuildManager_buildTestsTo( build_manager, build_parameters, target_dir );
-			//}
+			/*
+			if ( Arguments_isBuildTests( arguments ) || Arguments_isBuildTestsOnly( arguments ) )
+			{
+				BuildManager_buildTestsTo( build_manager, build_parameters, target_dir );
+			}
 		
-			//if ( Arguments_isRunTests( arguments ) || Arguments_isRunTestsOnly( arguments ) )
-			//{
-			//	BuildManager_runTestsFrom( build_manager, build_parameters, target_dir );
-			//}
+			if ( Arguments_isRunTests( arguments ) || Arguments_isRunTestsOnly( arguments ) )
+			{
+				BuildManager_runTestsFrom( build_manager, build_parameters, target_dir );
+			}
+			*/
 		}
 		free_BuildParameters( build_parameters );
 	}
