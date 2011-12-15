@@ -340,10 +340,11 @@ bool Package_buildPackage( const Package* self, const IDirectory* target, const 
 
 	if ( source )
 	{
-		const IDirectory* java      = Directory_getCachedSubdirectory( source, SRC_DIR_JAVA );
-		const IDirectory* csharp    = Directory_getCachedSubdirectory( source, SRC_DIR_CSHARP );
-		const IDirectory* c         = Directory_getCachedSubdirectory( source, SRC_DIR_C );
-		const IDirectory* cplusplus = Directory_getCachedSubdirectory( source, SRC_DIR_CPLUSPLUS );
+		const IDirectory* java         = Directory_getCachedSubdirectory( source, SRC_DIR_JAVA );
+		const IDirectory* csharp       = Directory_getCachedSubdirectory( source, SRC_DIR_CSHARP );
+		const IDirectory* c            = Directory_getCachedSubdirectory( source, SRC_DIR_C );
+		const IDirectory* cplusplus    = Directory_getCachedSubdirectory( source, SRC_DIR_CPLUSPLUS );
+		const IDirectory* objcplusplus = Directory_getCachedSubdirectory( source, SRC_DIR_OBJECTIVE_CPLUSPLUS );
 		
 //		if ( java )
 //		{
@@ -463,9 +464,13 @@ bool Package_buildPackage( const Package* self, const IDirectory* target, const 
 //			
 //			free_List( search_results );
 //		}
-		if ( c || cplusplus )
+		if ( c || cplusplus || objcplusplus )
 		{
-			const IDirectory* src = ( c ) ? c : cplusplus;
+			const IDirectory* src = NULL;
+			
+			     if ( c            ) src = c;
+			else if ( cplusplus    ) src = cplusplus;
+			else if ( objcplusplus ) src = objcplusplus;
 		
 			const ISet* src_files = Directory_getCachedFiles( src );
 			unsigned int count = Set_count( src_files );
@@ -475,7 +480,8 @@ bool Package_buildPackage( const Package* self, const IDirectory* target, const 
 				const IFile* file = (const IFile*) Set_get( src_files, i );
 				bool isC           = Path_hasExtension( File_getPath( file ), ".c" );
 				bool isC_PLUS_PLUS = Path_hasExtension( File_getPath( file ), ".cpp" );
-				if ( isC || isC_PLUS_PLUS )
+				bool isO_PLUS_PLUS = Path_hasExtension( File_getPath( file ), ".mm" );
+				if ( isC || isC_PLUS_PLUS || isO_PLUS_PLUS )
 				{
 					const IPath* file_path     = File_getPath( file );
 					const char*  file_location = Path_getCondensed( file_path );
@@ -498,7 +504,7 @@ bool Package_buildPackage( const Package* self, const IDirectory* target, const 
 					//	specifies what objects to include in the final library/executable.
 					
 					List_addItem( context->objectFiles, file_base_o );
-					if ( isC_PLUS_PLUS )
+					if ( isC_PLUS_PLUS || isO_PLUS_PLUS )
 					{
 							context->language = "C++";
 					} else if ( !context->language && isC ) {
