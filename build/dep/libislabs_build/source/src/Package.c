@@ -504,10 +504,16 @@ bool Package_buildPackage( const Package* self, const IDirectory* target, const 
 					//	specifies what objects to include in the final library/executable.
 					
 					List_addItem( context->objectFiles, file_base_o );
-					if ( isC_PLUS_PLUS || isO_PLUS_PLUS )
+					if ( isC_PLUS_PLUS )
 					{
 							context->language = "C++";
-					} else if ( !context->language && isC ) {
+					}
+					else if ( isO_PLUS_PLUS )
+					{
+							context->language = "O++";
+					}
+					else if ( !context->language && isC )
+					{
 						context->language = "C";
 					}
 				}
@@ -622,6 +628,12 @@ bool Package_buildPackage( const Package* self, const IDirectory* target, const 
 		else if ( 0 == CharString_compare( context->language, "C++" ) )
 		{
 			context->compiler = BuildParameters_getGlobal( parameters )->C_PLUS_PLUS;
+			context->linker   = BuildParameters_getGlobal( parameters )->LD;
+			context->archiver = BuildParameters_getGlobal( parameters )->AR;
+		}
+		else if ( 0 == CharString_compare( context->language, "O++" ) )
+		{
+			context->compiler = "clang";//BuildParameters_getGlobal( parameters )->C_PLUS_PLUS;
 			context->linker   = BuildParameters_getGlobal( parameters )->LD;
 			context->archiver = BuildParameters_getGlobal( parameters )->AR;
 		}
