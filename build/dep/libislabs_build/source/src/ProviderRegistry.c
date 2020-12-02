@@ -109,7 +109,7 @@ ProviderRegistry_toolSet( const ProviderRegistry* self, const char* platform, co
 	{
 		vendor = "apple";
 	}
-	else if ( (0 == CharString_compare( platform, "darwin" )) && (0 == CharString_compare( compiler, "g++" )) )
+	else if ( (0 == CharString_compare( platform, "darwin" )) && ((0 == CharString_compare( compiler, "g++" )) || (0 == CharString_compare( compiler, "clang" ))) )
 	{
 		vendor = "apple";
 	}
