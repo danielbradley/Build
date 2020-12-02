@@ -19,6 +19,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <ctype.h>
 
 static char* find_provider_dir( const char* exe_dir, char ifs );
 static char* determine_os_type();
