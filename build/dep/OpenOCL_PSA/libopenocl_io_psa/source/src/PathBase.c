@@ -242,6 +242,10 @@ new_Path_WinPOSIX_dynamic( const char* location )
 		free_CharString( variable );
 		free_CharString( postfix );
 	}
+	else
+	{
+		path = new_Path_WinPOSIX( location );
+	}
 	return path;
 }
 
@@ -426,8 +430,8 @@ const char* Path_getExtension( const IPath* self )
 		IPath* writeable = (IPath*) self;
 		
 		char* tmp = NULL;
-		unsigned int length = CharString_getLength( self->common );
-		unsigned int i;
+		long length = CharString_getLength( self->common );
+		long i;
 		for ( i = length - 1; i >= 0; i-- )
 		{
 			if ( '.' == self->common[i] )
@@ -459,7 +463,7 @@ bool Path_hasExtension( const IPath* self, const char* extension )
 	int status = 0;
 
 	char* copy = CharString_copy( self->common );
-	unsigned int len = strlen( copy );
+	long  len  = strlen( copy );
 	for ( len = len - 1; len >= 0; len-- )
 	{
 		if ( '/' == copy[len] ) {
