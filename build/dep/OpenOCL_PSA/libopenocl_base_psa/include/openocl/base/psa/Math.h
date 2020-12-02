@@ -8,7 +8,7 @@
  */
 
 #ifndef OPENOCL_BASE_PSA_MATH_H
-#define OPENOCL_BASE_SPA_MATH_H
+#define OPENOCL_BASE_PSA_MATH_H
 
 #include "openocl/base/psa/export.h"
 #include "openocl/base/psa.h"
