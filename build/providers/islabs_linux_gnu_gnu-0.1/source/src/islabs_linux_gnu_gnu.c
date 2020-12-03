@@ -96,11 +96,12 @@ static int private_compile( const void* buildParameters, const void* providerCon
 		// C-preprocessor flags
 		addFlags( arguments, "-I", context->includeDirs );
 
-		if ( 0 )
+		if ( CharString_contains( context->compiler, "cc" ) )
 		{
 			List_addList( arguments, BuildParameters_getGlobal( parameters )->CPPFLAGS );
 		}
 		else
+		if ( CharString_contains( context->compiler, "++" ) )
 		{
 			List_addList( arguments, BuildParameters_getGlobal( parameters )->CXXFLAGS );
 		}
