@@ -148,22 +148,24 @@ Global_new( const Arguments* args )
 		global->registry = new_ProviderRegistry( global->providerDirectory );
 	
 		global->CPPFLAGS = new_List();
-		global->CFLAGS = new_List();
-		global->LFLAGS = new_List();
-		global->LDFLAGS = new_List();
+		global->CFLAGS   = new_List();
+		global->CXXFLAGS = new_List();
+		global->LFLAGS   = new_List();
+		global->LDFLAGS  = new_List();
 		global->LIBFLAGS = new_List();
-		global->JFLAGS = new_List();
+		global->JFLAGS   = new_List();
 	
-		global->DLLList = new_List();
+		global->DLLList       = new_List();
 		global->builtPackages = new_List();
 	
 		{
 		char* cppflags = CharString_copy( getenv( "CPPFLAGS" ) );
-		char* cflags   = CharString_copy( getenv( "CFLAGS" ) );
-		char* lflags   = CharString_copy( getenv( "LFLAGS" ) );
-		char* ldflags  = CharString_copy( getenv( "LDFLAGS" ) );
+		char* cflags   = CharString_copy( getenv( "CFLAGS"   ) );
+		char* cxxflags = CharString_copy( getenv( "CXXFLAGS" ) );
+		char* lflags   = CharString_copy( getenv( "LFLAGS"   ) );
+		char* ldflags  = CharString_copy( getenv( "LDFLAGS"  ) );
 		char* libflags = CharString_copy( getenv( "LIBFLAGS" ) );
-		char* jflags   = CharString_copy( getenv( "JFLAGS" ) );
+		char* jflags   = CharString_copy( getenv( "JFLAGS"   ) );
 	
 		const char* token;
 		if ( cppflags )
@@ -187,6 +189,17 @@ Global_new( const Arguments* args )
 				token = (const char*) strtok( NULL, " " );
 			}
 			free_CharString( cflags );
+		}
+
+		if ( cxxflags )
+		{
+			token = (const char*) strtok( cxxflags, " " );
+			while ( NULL != token )
+			{
+				List_copyItem( global->CXXFLAGS, token );
+				token = (const char*) strtok( NULL, " " );
+			}
+			free_CharString( cxxflags );
 		}
 	
 		if ( lflags )
@@ -272,6 +285,7 @@ Global_delete( Global* self )
 
 	free_List( self->CPPFLAGS );
 	free_List( self->CFLAGS );
+	free_List( self->CXXFLAGS );
 	free_List( self->LFLAGS );
 	free_List( self->LDFLAGS );
 	free_List( self->LIBFLAGS );

@@ -36,6 +36,7 @@ new_ProviderContext( const BuildParameters* parameters, const char* package_dir,
 
 	self->FULL_CPPFLAGS = new_List();
 	self->FULL_CFLAGS   = new_List();
+	self->FULL_CXXFLAGS = new_List();
 	self->FULL_LFLAGS   = new_List();
 	self->FULL_LDFLAGS  = new_List();
 	self->FULL_LIBFLAGS = new_List();
@@ -52,9 +53,9 @@ new_ProviderContext( const BuildParameters* parameters, const char* package_dir,
 	self->runtimeLibraryDirs = new_List();
 	self->systemLibraryDirs  = new_List();
 
-	self->elf_libraries = new_List();
-	self->dll_libraries = new_List();
-	self->unix_archives = new_List();
+	self->elf_libraries    = new_List();
+	self->dll_libraries    = new_List();
+	self->unix_archives    = new_List();
 	self->windows_archives = new_List();
 
 	self->system_libraries = new_List();
@@ -90,6 +91,7 @@ free_ProviderContext( ProviderContext* self )
 	
 	free_List( self->FULL_CPPFLAGS );
 	free_List( self->FULL_CFLAGS );	
+	free_List( self->FULL_CXXFLAGS );	
 	free_List( self->FULL_LFLAGS );	
 	free_List( self->FULL_LDFLAGS );	
 	free_List( self->FULL_LIBFLAGS );	

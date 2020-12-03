@@ -33,6 +33,7 @@ struct _ProviderContext
 
 	IList* FULL_CPPFLAGS;   // C preprocessor flags: -I..., -D..., /I..., /D...
 	IList* FULL_CFLAGS;     // C compiler flags: -g, /Zi, -c, /c, -O2, -march=i386, -Wall, -W2
+	IList* FULL_CXXFLAGS;   // C++ compiler flags: -std=c++98, -Wno-deprecated 
 	IList* FULL_LFLAGS;     // Linker flags: -Wl,-G, /DEBUG
 	IList* FULL_LDFLAGS;    // Linker/Loader paths: -L..., /LIBPATH:...
 	IList* FULL_LIBFLAGS;   // Flags to create shared libraries: -shared, /DLL

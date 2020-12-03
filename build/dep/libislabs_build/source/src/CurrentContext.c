@@ -36,7 +36,8 @@ CurrentContext_new( const Global* global, const char* package_dir, const char* t
 
 	this->FULL_CPPFLAGS = new_List();
 	this->FULL_CFLAGS   = new_List();
-	this->FULL_LFLAGS  =  new_List();
+	this->FULL_CXXFLAGS = new_List();
+	this->FULL_LFLAGS   = new_List();
 	this->FULL_LDFLAGS  = new_List();
 	this->FULL_LIBFLAGS = new_List();
 	this->FULL_LIBS     = new_List();
@@ -74,6 +75,7 @@ CurrentContext_delete( CurrentContext* this )
 	
 	free_List( this->FULL_CPPFLAGS );
 	free_List( this->FULL_CFLAGS );	
+	free_List( this->FULL_CXXFLAGS );	
 	free_List( this->FULL_LFLAGS );	
 	free_List( this->FULL_LDFLAGS );	
 	free_List( this->FULL_LIBFLAGS );	
@@ -97,11 +99,12 @@ CurrentContext_print( const CurrentContext* this )
 	printf( "\t%s\n", this->package_name );
 
 	List_print( this->FULL_CPPFLAGS );
-	List_print( this->FULL_CFLAGS );
-	List_print( this->FULL_LDFLAGS );
+	List_print( this->FULL_CFLAGS   );
+	List_print( this->FULL_CXXFLAGS );
+	List_print( this->FULL_LDFLAGS  );
 	List_print( this->FULL_LIBFLAGS );
-	List_print( this->FULL_LIBS );
-	List_print( this->FULL_RUNLIBS );
+	List_print( this->FULL_LIBS     );
+	List_print( this->FULL_RUNLIBS  );
 }
 
 char*

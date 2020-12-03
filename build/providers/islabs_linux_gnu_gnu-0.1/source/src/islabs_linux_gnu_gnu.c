@@ -95,7 +95,15 @@ static int private_compile( const void* buildParameters, const void* providerCon
 		
 		// C-preprocessor flags
 		addFlags( arguments, "-I", context->includeDirs );
-		List_addList( arguments, BuildParameters_getGlobal( parameters )->CPPFLAGS );
+
+		if ( 0 )
+		{
+			List_addList( arguments, BuildParameters_getGlobal( parameters )->CPPFLAGS );
+		}
+		else
+		{
+			List_addList( arguments, BuildParameters_getGlobal( parameters )->CXXFLAGS );
+		}
 		
 		// C flags
 		List_copyItem( arguments, "-Wall" );
