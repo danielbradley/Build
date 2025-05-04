@@ -301,13 +301,7 @@ bool Package_buildPackage( const Package* self, const IDirectory* target, const 
 	//	"examples", and "profiling".
 	// 
 
-	if ( 1 )
-	{
-		dependency_ordered_lib_list = Package_ReorderAndReduceLibList( depthfirst_lib_directories );
-	} else {
-		dependency_ordered_lib_list = new_List_items( depthfirst_lib_directories );
-		List_addList( dependency_ordered_lib_list, depthfirst_lib_directories );
-	}
+	dependency_ordered_lib_list = Package_ReorderAndReduceLibList( depthfirst_lib_directories );
 
 	//
 	//--------------------------------------------------------------------------
